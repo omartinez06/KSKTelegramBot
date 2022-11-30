@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>	  
+
+	<appender name="appenderConsola" class="org.apache.log4j.ConsoleAppender">
+	    <param name="File" value="logs/Server.log"/>
+        <param name="ImmediateFlush" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+          <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %p %c - %m%n"/>
+        </layout>
+      </appender>	
+		
+	  <appender name="appDebug" class="org.apache.log4j.RollingFileAppender">
+	   <param name="File" value="logs/Debuger.log"/>
+	   <param name="Append" value="false"/>
+	   <param name="MaxFileSize" value="5MB"/> 
+	   <param name="MaxBackupIndex" value="5"/>    
+	   <param name="Threshold" value="DEBUG"/>
+	   <layout class="org.apache.log4j.PatternLayout">
+	     <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %p %c - %m%n"/>
+	   </layout>
+	 </appender> 
+
+	  <appender name="appError" class="org.apache.log4j.RollingFileAppender">
+	   <param name="File" value="logs/Errores.log"/>
+	   <param name="Append" value="false"/>
+	   <param name="MaxFileSize" value="5MB"/>
+	   <param name="MaxBackupIndex" value="5"/>    
+	   <param name="Threshold" value="ERROR"/>
+	   <layout class="org.apache.log4j.PatternLayout">
+	     <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %p %c - %m%n"/>
+	   </layout>
+	 </appender> 
+	 
+	 <appender name="appInfo" class="org.apache.log4j.RollingFileAppender">
+	   <param name="File" value="logs/Info.log"/>
+	   <param name="Append" value="false"/>
+	   <param name="MaxFileSize" value="5MB"/>
+	   <param name="MaxBackupIndex" value="5"/>    
+	   <param name="Threshold" value="INFO"/>
+	   <layout class="org.apache.log4j.PatternLayout">
+	     <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %p %c - %m%n"/>
+	   </layout>
+	 </appender> 
+
+	<logger name="com.ericsson" additivity="false">
+		<level value="DEBUG"/>
+		<appender-ref ref="appDebug"/>
+		<appender-ref ref="appError"/>
+		<appender-ref ref="appInfo"/>
+		<appender-ref ref="appenderConsola"/> 
+	</logger>
+</log4j:configuration>
