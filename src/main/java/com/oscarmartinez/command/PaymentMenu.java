@@ -33,7 +33,7 @@ public class PaymentMenu {
 		return resp;
 	}
 
-	public static SendMessage sendMessagePaymentRegister(Long chatId, String license, String deposit, int value) {
+	public static SendMessage sendMessagePaymentRegister(Long chatId, String license, String deposit, int value, String user) {
 		final String methodName = "sendMessagePaymentRegister()";
 		logger.debug(MessageFormat.format("{0} - Begin", methodName));
 		SendMessage resp = new SendMessage();
@@ -50,6 +50,7 @@ public class PaymentMenu {
 			json.put("depositTicket", deposit);
 			json.put("value", value);
 			json.put("studentLicense", license);
+			json.put("insertedBy", user);
 
 			try (OutputStream os = connection.getOutputStream()) {
 				byte[] input = json.toJSONString().getBytes("utf-8");
@@ -64,7 +65,7 @@ public class PaymentMenu {
 				}
 				System.out.println(response.toString());
 			}
-			resp.setText("Pago Registrado");
+			resp.setText("Pago Registrado, pendiente autorizacion del dojo.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.setText("Hubo un error al registrar su pago intente mas tarde");

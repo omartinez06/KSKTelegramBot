@@ -42,6 +42,13 @@ public class StudentMenu {
 		buttonrow.add(button);
 		rowList.add(buttonrow);
 		
+		button = new InlineKeyboardButton();
+		buttonrow = new ArrayList<InlineKeyboardButton>();
+		button.setText("Consulta Token Activo");
+		button.setCallbackData("EVENT_TOKEN");
+		buttonrow.add(button);
+		rowList.add(buttonrow);
+		
 		inlineKeyboardMarkup.setKeyboard(rowList);
 		
 		SendMessage resp = new SendMessage().builder().chatId(Long.toString(chatId)).text(message)

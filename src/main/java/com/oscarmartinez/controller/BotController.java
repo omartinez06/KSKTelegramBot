@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.oscarmartinez.command.EventMenu;
 import com.oscarmartinez.command.OptionMenu;
 import com.oscarmartinez.command.PaymentMenu;
+import com.oscarmartinez.command.TokenMenu;
 
 public class BotController extends TelegramLongPollingBot {
 	
@@ -31,7 +32,7 @@ public class BotController extends TelegramLongPollingBot {
 					String[] array = command.split("\\|",2);
 					String ticket = array[0];
 					int value = Integer.parseInt(array[1]);
-					execute(PaymentMenu.sendMessagePaymentRegister(chatId, carnet, ticket, value));
+					execute(PaymentMenu.sendMessagePaymentRegister(chatId, carnet, ticket, value, userId+"-"+userName+"-"+userLast));
 				} else {
 					execute(OptionMenu.validateLicense(update.getMessage().getChatId(), update.getMessage().getText()));
 					carnet = update.getMessage().getText();
@@ -48,6 +49,8 @@ public class BotController extends TelegramLongPollingBot {
 						execute(PaymentMenu.messageInsertPayment(chatId));
 					} else if(update.getCallbackQuery().getData().equals("EVENT_QUERY")) {
 						execute(EventMenu.sendNextEvents(chatId, carnet));
+					} else if(update.getCallbackQuery().getData().equals("EVENT_TOKEN")) {
+						execute(TokenMenu.getTokenEvent(chatId, carnet));
 					}
 				} catch (Exception ex) {
 					logger.error("Error: ", ex);
