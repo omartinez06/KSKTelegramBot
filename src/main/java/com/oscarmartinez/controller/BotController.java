@@ -5,6 +5,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import com.oscarmartinez.command.BalanceMenu;
 import com.oscarmartinez.command.EventMenu;
 import com.oscarmartinez.command.OptionMenu;
 import com.oscarmartinez.command.PaymentMenu;
@@ -51,6 +52,10 @@ public class BotController extends TelegramLongPollingBot {
 						execute(EventMenu.sendNextEvents(chatId, carnet));
 					} else if(update.getCallbackQuery().getData().equals("EVENT_TOKEN")) {
 						execute(TokenMenu.getTokenEvent(chatId, carnet));
+					} else if(update.getCallbackQuery().getData().equals("PENDING_BALANCE")) {
+						execute(BalanceMenu.getPendingBalance(chatId, carnet));
+					} else if(update.getCallbackQuery().getData().equals("RETURN")) {
+						execute(OptionMenu.validateLicense(chatId, carnet));
 					}
 				} catch (Exception ex) {
 					logger.error("Error: ", ex);

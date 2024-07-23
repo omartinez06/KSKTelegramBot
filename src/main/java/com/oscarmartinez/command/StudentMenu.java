@@ -23,10 +23,10 @@ public class StudentMenu {
 		List<InlineKeyboardButton> buttonrow = new ArrayList<InlineKeyboardButton>();
 		List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
 		
-		/*button.setText("Saldo Pendiente");
+		button.setText("Saldo Pendiente");
 		button.setCallbackData("PENDING_BALANCE");
 		buttonrow.add(button);
-		rowList.add(buttonrow);*/
+		rowList.add(buttonrow);
 		
 		button = new InlineKeyboardButton();
 		buttonrow = new ArrayList<InlineKeyboardButton>();
@@ -46,6 +46,34 @@ public class StudentMenu {
 		buttonrow = new ArrayList<InlineKeyboardButton>();
 		button.setText("Consulta Token Activo");
 		button.setCallbackData("EVENT_TOKEN");
+		buttonrow.add(button);
+		rowList.add(buttonrow);
+		
+		inlineKeyboardMarkup.setKeyboard(rowList);
+		
+		SendMessage resp = new SendMessage().builder().chatId(Long.toString(chatId)).text(message)
+		.replyMarkup(inlineKeyboardMarkup).build();
+		return resp;
+	}
+	
+	public static SendMessage sendMenuPayment(Long chatId, String message) {
+		final String methodName = "sendMenuMessage()";
+		logger.debug(MessageFormat.format("{0} - Begin", methodName));
+		InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+		InlineKeyboardButton button = new InlineKeyboardButton();
+		List<InlineKeyboardButton> buttonrow = new ArrayList<InlineKeyboardButton>();
+		List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
+		button = new InlineKeyboardButton();
+		buttonrow = new ArrayList<InlineKeyboardButton>();
+		button.setText("Registrar Pago");
+		button.setCallbackData("PAYMENT_RECORD");
+		buttonrow.add(button);
+		rowList.add(buttonrow);
+		
+		button = new InlineKeyboardButton();
+		buttonrow = new ArrayList<InlineKeyboardButton>();
+		button.setText("Regresar Al Menu Principal");
+		button.setCallbackData("RETURN");
 		buttonrow.add(button);
 		rowList.add(buttonrow);
 		
