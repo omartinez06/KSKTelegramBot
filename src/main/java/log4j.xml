@@ -43,7 +43,7 @@
 	   </layout>
 	 </appender> 
 
-	<logger name="com.ericsson" additivity="false">
+	<logger name="com.oscarmartinez" additivity="false">
 		<level value="DEBUG"/>
 		<appender-ref ref="appDebug"/>
 		<appender-ref ref="appError"/>

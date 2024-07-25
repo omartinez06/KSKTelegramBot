@@ -6,11 +6,15 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 public class PaymentMenu {
 
@@ -37,7 +41,6 @@ public class PaymentMenu {
 		final String methodName = "sendMessagePaymentRegister()";
 		logger.debug(MessageFormat.format("{0} - Begin", methodName));
 		SendMessage resp = new SendMessage();
-		resp.setChatId(Long.toString(chatId));
 		try {
 			URL url = new URL(URL_SERVICE + "/payment/paybot/");
 			System.out.println(url);
@@ -65,7 +68,21 @@ public class PaymentMenu {
 				}
 				System.out.println(response.toString());
 			}
-			resp.setText("Pago Registrado, pendiente autorizacion del dojo.");
+			InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+			InlineKeyboardButton button = new InlineKeyboardButton();
+			List<InlineKeyboardButton> buttonrow = new ArrayList<InlineKeyboardButton>();
+			List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
+			button = new InlineKeyboardButton();
+			buttonrow = new ArrayList<InlineKeyboardButton>();
+			button.setText("Regresar Al Menu Principal");
+			button.setCallbackData("RETURN");
+			buttonrow.add(button);
+			rowList.add(buttonrow);
+			
+			inlineKeyboardMarkup.setKeyboard(rowList);
+			
+			resp = SendMessage.builder().chatId(Long.toString(chatId)).text("Su pago ha sido registrado, al ser autorizado por el DOJO recibira su recibo por correo electronico.")
+			.replyMarkup(inlineKeyboardMarkup).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.setText("Hubo un error al registrar su pago intente mas tarde");

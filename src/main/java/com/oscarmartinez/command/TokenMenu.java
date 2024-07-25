@@ -5,11 +5,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 public class TokenMenu {
 	
@@ -29,16 +33,33 @@ public class TokenMenu {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String response;
 			String token = "";
+			String messageText = "";
 			while((response = rd.readLine()) != null) {
 				token = response;
 			}
 			resp.setChatId(chatId.toString());
 			if(!token.isEmpty()) {
 				String message = "El token activo es: " + token;
-				resp.setText(message);
+				messageText = message;
 			} else {
-				resp.setText("No hay token o evento activo.");
+				messageText = "No hay token o evento activo.";
 			}
+			
+			InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+			InlineKeyboardButton button = new InlineKeyboardButton();
+			List<InlineKeyboardButton> buttonrow = new ArrayList<InlineKeyboardButton>();
+			List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
+			button = new InlineKeyboardButton();
+			buttonrow = new ArrayList<InlineKeyboardButton>();
+			button.setText("Regresar Al Menu Principal");
+			button.setCallbackData("RETURN");
+			buttonrow.add(button);
+			rowList.add(buttonrow);
+			
+			inlineKeyboardMarkup.setKeyboard(rowList);
+			
+			resp = SendMessage.builder().chatId(Long.toString(chatId)).text(messageText)
+			.replyMarkup(inlineKeyboardMarkup).build();
 			rd.close();
 		} catch (Exception e) {
 			e.printStackTrace();
